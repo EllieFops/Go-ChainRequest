@@ -7,23 +7,24 @@ import (
 
 type response struct {
   raw *http.Response
+  err error
 
   body []byte
 }
 
-func (r *response) GetRawResponse() *http.Response {
-  return r.raw
+func (r *response) GetError() error {
+  return r.err
 }
 
-func (r *response) GetStatusCode() int {
-  return r.raw.StatusCode
-}
-
-func (r *response) GetStatus() string {
-  return r.raw.Status
+func (r *response) GetRawResponse() (*http.Response, error) {
+  return r.raw, r.err
 }
 
 func (r *response) GetBody() ([]byte, error) {
+  if r.err != nil {
+    return nil, r.err
+  }
+
   if r.body == nil {
     body, err := ioutil.ReadAll(r.raw.Body)
     r.body = body
@@ -31,14 +32,6 @@ func (r *response) GetBody() ([]byte, error) {
   }
 
   return r.body, nil
-}
-
-func (r *response) GetHeader(in string) string {
-  return r.raw.Header.Get(in)
-}
-
-func (r *response) GetHeaders() http.Header {
-  return r.raw.Header
 }
 
 func (r *response) UnmarshalBody(in interface{}, un ResponseUnmarshaller) error {

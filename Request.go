@@ -93,5 +93,5 @@ type Request interface {
   // Returns:
   //   Response A wrapped http response
   //   error    the error returned from submitting this request
-  Submit() (Response, error)
+  Submit() Response
 }

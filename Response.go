@@ -3,17 +3,11 @@ package creq
 import "net/http"
 
 type Response interface {
-  GetRawResponse() *http.Response
+  GetError() error
 
-  GetStatusCode() int
-
-  GetStatus() string
+  GetRawResponse() (*http.Response, error)
 
   GetBody() ([]byte, error)
-
-  GetHeader(string) string
-
-  GetHeaders() http.Header
 
   UnmarshalBody(interface{}, ResponseUnmarshaller) error
 }

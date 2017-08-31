@@ -56,13 +56,12 @@ func (r request) GetMethod() HttpVerb {
   return r.method
 }
 
-func (r request) Submit() (response Response, err error) {
-  var req *http.Request
+func (r request) Submit() Response {
   var res *http.Response
 
-  req, err = http.NewRequest(string(r.method), r.url, r.getBodyReader())
+  req, err := http.NewRequest(string(r.method), r.url, r.getBodyReader())
   if nil != err {
-    return
+    return &response{err: err}
   }
 
   for header := range r.headers {
@@ -70,13 +69,7 @@ func (r request) Submit() (response Response, err error) {
   }
 
   res, err = http.DefaultClient.Do(req)
-  if nil != err {
-    return
-  }
-
-  response = &response{raw: res}
-
-  return
+  return &response{raw: res, err: err}
 }
 
 func (r request) getBodyReader() io.Reader {
