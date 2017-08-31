@@ -1,7 +1,5 @@
 package creq
 
-import "net/http"
-
 type Request interface {
 
   // Sets the Request body
@@ -93,7 +91,7 @@ type Request interface {
   // Submit this Request
   //
   // Returns:
-  //   *http.Response the Go http response result from sending this request
-  //   error          the error returned from submitting this request
-  Submit() (*http.Response, error)
+  //   Response A wrapped http response
+  //   error    the error returned from submitting this request
+  Submit() (Response, error)
 }

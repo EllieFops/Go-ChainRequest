@@ -56,8 +56,9 @@ func (r request) GetMethod() HttpVerb {
   return r.method
 }
 
-func (r request) Submit() (response *http.Response, err error) {
+func (r request) Submit() (response Response, err error) {
   var req *http.Request
+  var res *http.Response
 
   req, err = http.NewRequest(string(r.method), r.url, r.getBodyReader())
   if nil != err {
@@ -68,10 +69,12 @@ func (r request) Submit() (response *http.Response, err error) {
     req.Header.Set(string(header), r.headers[header])
   }
 
-  response, err = http.DefaultClient.Do(req)
+  res, err = http.DefaultClient.Do(req)
   if nil != err {
     return
   }
+
+  response = &response{raw: res}
 
   return
 }
