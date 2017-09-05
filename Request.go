@@ -2,6 +2,19 @@ package creq
 
 type Request interface {
 
+  // Marshalls the request body into an array of bytes
+  //
+  // Parameters:
+  //   body: interface{}
+  //     Raw data that should be marshalled into an array of bytes and set
+  //     as the request body.
+  //   marshaller: RequestMarshaller
+  //     The marshaller to turn the request body into an array of bytes.
+  //
+  // Returns:
+  //   Request: The current instance of this Request
+  MarshalBody(body interface{}, marshaller RequestMarshaller) Request
+
   // Sets the Request body
   //
   // Parameters:
