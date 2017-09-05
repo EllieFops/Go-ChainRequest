@@ -9,6 +9,16 @@ type request struct {
   method  HttpVerb
   url     string
   body    []byte
+  err     error
+}
+
+func (r request) MarshalBody(
+  body interface{},
+  marshaller RequestMarshaller,
+) Request {
+  r.body, r.err = marshaller.Marshal(body)
+
+  return &r
 }
 
 func (r request) SetBody(body []byte) Request {
@@ -58,6 +68,10 @@ func (r request) GetMethod() HttpVerb {
 
 func (r request) Submit() Response {
   var res *http.Response
+
+  if r.err != nil {
+    return &response{err: r.err}
+  }
 
   req, err := http.NewRequest(string(r.method), r.url, r.getBodyReader())
   if nil != err {
