@@ -1,0 +1,5 @@
+= Chainable Requests
+
+- Provides a chainable API for dealing with requests in Go.
+- Allows for easier serialization and deserialization of request/response bodies.
+- Simplifies error checking to a single error output at the call chain endpoints.
