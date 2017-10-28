@@ -1,13 +1,16 @@
 package creq
 
-import "net/http"
+import (
+	"github.com/Foxcapades/Go-ChainRequest/response"
+	"net/http"
+)
 
 type Response interface {
-  GetError() error
+	GetError() error
 
-  GetRawResponse() (*http.Response, error)
+	GetRawResponse() (*http.Response, error)
 
-  GetBody() ([]byte, error)
+	GetBody() ([]byte, error)
 
-  UnmarshalBody(interface{}, ResponseUnmarshaller) error
+	UnmarshalBody(interface{}, response.Unmarshaller) error
 }
