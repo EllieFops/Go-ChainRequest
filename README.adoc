@@ -1,5 +1,9 @@
 = Chainable Requests
 
+image::https://travis-ci.org/Foxcapades/Go-ChainRequest.svg?branch=master[Build Status, float=left, link="https://travis-ci.org/Foxcapades/Go-ChainRequest", margin=5]
+image::https://codecov.io/gh/Foxcapades/Go-ChainRequest/branch/master/graph/badge.svg[Coverage Status, float=left, link=https://codecov.io/gh/Foxcapades/Go-ChainRequest, margin=5]
+image::https://img.shields.io/github/license/foxcapades/Go-ChainRequest.svg?maxAge=1296000?style=plastic[MIT License, float=left, margin=5]
+
 - Provides a chainable API for dealing with requests in Go.
 - Allows for easier serialization and deserialization of request/response bodies.
 - Simplifies error checking to a single error output at the call chain endpoints.
