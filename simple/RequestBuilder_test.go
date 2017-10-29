@@ -1,10 +1,11 @@
 package simple
 
 import (
-	"github.com/Foxcapades/Go-ChainRequest/request/method"
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/Foxcapades/Go-ChainRequest/request/method"
 )
 
 func TestRequestBuilder_Build(t *testing.T) {

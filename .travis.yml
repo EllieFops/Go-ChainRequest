@@ -1,0 +1,16 @@
+language: go
+sudo: false
+
+go:
+  - tip
+
+branches:
+  only:
+  - master
+  - development
+
+script:
+  - bash tests.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

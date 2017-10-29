@@ -1,8 +1,9 @@
 package simple
 
 import (
-	"github.com/Foxcapades/Go-ChainRequest/request/method"
 	"testing"
+
+	"github.com/Foxcapades/Go-ChainRequest/request/method"
 )
 
 func TestConnectRequest(t *testing.T) {

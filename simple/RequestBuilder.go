@@ -2,9 +2,11 @@ package simple
 
 import (
 	"bytes"
-	"github.com/Foxcapades/Go-ChainRequest"
 	"io"
+
 	"net/http"
+
+	"github.com/Foxcapades/Go-ChainRequest"
 )
 
 type RequestBuilder func(string, string, io.Reader) (*http.Request, error)

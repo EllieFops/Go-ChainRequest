@@ -1,9 +1,10 @@
 package simple
 
 import (
-	res "github.com/Foxcapades/Go-ChainRequest/response"
 	"io/ioutil"
 	"net/http"
+
+	res "github.com/Foxcapades/Go-ChainRequest/response"
 )
 
 type response struct {

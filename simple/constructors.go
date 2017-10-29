@@ -1,10 +1,11 @@
 package simple
 
 import (
+	"net/http"
+
 	"github.com/Foxcapades/Go-ChainRequest"
 	req "github.com/Foxcapades/Go-ChainRequest/request"
 	"github.com/Foxcapades/Go-ChainRequest/request/method"
-	"net/http"
 )
 
 func GetRequest(url string) creq.Request {
