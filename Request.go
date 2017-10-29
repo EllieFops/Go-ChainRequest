@@ -33,8 +33,7 @@ type Request interface {
 	//
 	// Returns:
 	//   []byte: The body data (empty slice if not present)
-	//   bool:   Whether or not a body was set on this Request
-	GetBody() ([]byte, bool)
+	GetBody() []byte
 
 	// Adds a Header to this Request
 	//
@@ -108,4 +107,10 @@ type Request interface {
 	//   Response A wrapped http response
 	//   error    the error returned from submitting this request
 	Submit() Response
+
+	GetUrl() string
+
+	SetHttpClient(client request.Client) Request
+
+	SetRequestBuilder(builder RequestBuilder) Request
 }

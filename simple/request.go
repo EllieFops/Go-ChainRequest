@@ -1,11 +1,10 @@
 package simple
 
-import "net/http"
-import "bytes"
 import (
+	"net/http"
+
 	"github.com/Foxcapades/Go-ChainRequest"
 	req "github.com/Foxcapades/Go-ChainRequest/request"
-	"io"
 )
 
 type request struct {
@@ -14,86 +13,95 @@ type request struct {
 	url     string
 	body    []byte
 	err     error
+	client  req.Client
+	factory creq.RequestBuilder
 }
 
-func (r request) MarshalBody(
-	body interface{},
-	marshaller req.Marshaller,
-) creq.Request {
+func (r *request) SetHttpClient(client req.Client) creq.Request {
+	r.client = client
+	return r
+}
+
+func (r *request) SetRequestBuilder(builder creq.RequestBuilder) creq.Request {
+	r.factory = builder
+	return r
+}
+
+func (r *request) MarshalBody(body interface{}, marshaller req.Marshaller) creq.Request {
 	r.body, r.err = marshaller.Marshal(body)
 
-	return &r
+	return r
 }
 
-func (r request) SetBody(body []byte) creq.Request {
+func (r *request) SetBody(body []byte) creq.Request {
 	r.body = body
 
-	return &r
+	return r
 }
 
-func (r request) GetBody() ([]byte, bool) {
+func (r *request) GetBody() []byte {
 	if r.body == nil {
-		return make([]byte, 0), false
+		return make([]byte, 0)
 	}
-	return r.body, true
+	return r.body
 }
 
-func (r request) AddHeader(key req.Header, value string) creq.Request {
+func (r *request) AddHeader(key req.Header, value string) creq.Request {
 	if _, ok := r.headers[key]; ok {
 		r.headers[key] += "; " + value
 	} else {
 		r.headers[key] = value
 	}
 
-	return &r
+	return r
 }
 
-func (r request) SetHeader(key req.Header, value string) creq.Request {
+func (r *request) SetHeader(key req.Header, value string) creq.Request {
 	r.headers[key] = value
 
-	return &r
+	return r
 }
 
-func (r request) GetHeader(key req.Header) (string, bool) {
+func (r *request) GetHeader(key req.Header) (string, bool) {
 	a, b := r.headers[key]
 
 	return a, b
 }
 
-func (r request) SetMethod(method req.Method) creq.Request {
+func (r *request) SetMethod(method req.Method) creq.Request {
 	r.method = method
 
-	return &r
+	return r
 }
 
-func (r request) GetMethod() req.Method {
+func (r *request) GetMethod() req.Method {
 	return r.method
 }
 
-func (r request) Submit() creq.Response {
-	var res *http.Response
+func (r *request) GetUrl() string {
+	return r.url
+}
 
+func (r *request) Submit() creq.Response {
 	if r.err != nil {
 		return &response{err: r.err}
 	}
 
-	req, err := http.NewRequest(string(r.method), r.url, r.getBodyReader())
+	quest, err := r.factory.Build(r)
+
 	if nil != err {
 		return &response{err: err}
 	}
 
-	for header := range r.headers {
-		req.Header.Set(string(header), r.headers[header])
-	}
+	r.assignHeaders(quest.Header)
 
-	res, err = http.DefaultClient.Do(req)
+	res, err := r.client.Do(quest)
+
 	return &response{raw: res, err: err}
 }
 
-func (r request) getBodyReader() io.Reader {
-	if len(r.body) > 0 {
-		return bytes.NewReader(r.body)
+func (r *request) assignHeaders(head http.Header) {
+	for header := range r.headers {
+		head.Set(string(header), r.headers[header])
 	}
-
-	return nil
 }
