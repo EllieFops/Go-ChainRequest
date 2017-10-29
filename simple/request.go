@@ -29,13 +29,11 @@ func (r *request) SetRequestBuilder(builder creq.RequestBuilder) creq.Request {
 
 func (r *request) MarshalBody(body interface{}, marshaller req.Marshaller) creq.Request {
 	r.body, r.err = marshaller.Marshal(body)
-
 	return r
 }
 
 func (r *request) SetBody(body []byte) creq.Request {
 	r.body = body
-
 	return r
 }
 
@@ -58,19 +56,16 @@ func (r *request) AddHeader(key req.Header, value string) creq.Request {
 
 func (r *request) SetHeader(key req.Header, value string) creq.Request {
 	r.headers[key] = value
-
 	return r
 }
 
 func (r *request) GetHeader(key req.Header) (string, bool) {
 	a, b := r.headers[key]
-
 	return a, b
 }
 
 func (r *request) SetMethod(method req.Method) creq.Request {
 	r.method = method
-
 	return r
 }
 

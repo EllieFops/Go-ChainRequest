@@ -1,0 +1,16 @@
+language: go
+sudo: false
+
+go:
+  - tip
+
+branches:
+  only:
+  - master
+  - development
+
+script:
+  - go list ./... | xargs -L1 bash -c 'go test -race -covermode=atomic -coverprofile=derp $0; cat derp >> coverage.txt; rm derp'
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
