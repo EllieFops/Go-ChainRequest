@@ -8,7 +8,7 @@ import (
 type Response interface {
 	GetError() error
 
-	GetResponseCode() uint16
+	GetResponseCode() (uint16, error)
 
 	GetRawResponse() (*http.Response, error)
 
