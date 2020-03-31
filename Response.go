@@ -8,6 +8,8 @@ import (
 type Response interface {
 	GetError() error
 
+	GetResponseCode() uint16
+
 	GetRawResponse() (*http.Response, error)
 
 	GetBody() ([]byte, error)

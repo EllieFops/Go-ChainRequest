@@ -14,6 +14,10 @@ type response struct {
 	body []byte
 }
 
+func (r *response) GetResponseCode() uint16 {
+	return uint16(r.raw.StatusCode)
+}
+
 func (r *response) GetError() error {
 	return r.err
 }
