@@ -13,12 +13,19 @@ type request struct {
 	url     string
 	body    []byte
 	err     error
-	client  req.Client
+	client  *http.Client
 	factory creq.RequestBuilder
 }
 
-func (r *request) SetHttpClient(client req.Client) creq.Request {
+func (r *request) SetHttpClient(client *http.Client) creq.Request {
 	r.client = client
+	return r
+}
+
+func (r *request) DisableRedirects() creq.Request {
+	r.client.CheckRedirect = func(*http.Request, []*http.Request) error {
+		return http.ErrUseLastResponse
+	}
 	return r
 }
 

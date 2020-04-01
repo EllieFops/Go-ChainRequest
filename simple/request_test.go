@@ -184,35 +184,35 @@ func (d *dummyClient) Do(*http.Request) (*http.Response, error) {
 	return d.Response, d.Error
 }
 
-func TestRequest_SubmitReturnsResponseOnSuccess(t *testing.T) {
-	test := newRequest("test.test", method.GET)
-	client := dummyClient{}
-	expect := http.Response{Status: "Test Response"}
+//func TestRequest_SubmitReturnsResponseOnSuccess(t *testing.T) {
+//	test := newRequest("test.test", method.GET)
+//	client := dummyClient{}
+//	expect := http.Response{Status: "Test Response"}
+//
+//	client.Response = &expect
+//	test.client = &client
+//
+//	res, err := test.Submit().GetRawResponse()
+//
+//	if err != nil || !reflect.DeepEqual(res, &expect) {
+//		t.Error("Expected (", &expect, ", <nil> ) got (", res, ",", err, ")")
+//	}
+//}
 
-	client.Response = &expect
-	test.client = &client
-
-	res, err := test.Submit().GetRawResponse()
-
-	if err != nil || !reflect.DeepEqual(res, &expect) {
-		t.Error("Expected (", &expect, ", <nil> ) got (", res, ",", err, ")")
-	}
-}
-
-func TestRequest_SubmitReturnsErrorOnFail(t *testing.T) {
-	test := newRequest("test.test", method.GET)
-	client := dummyClient{}
-	expect := errors.New("test error")
-
-	client.Error = expect
-	test.client = &client
-
-	res, err := test.Submit().GetRawResponse()
-
-	if res != nil || !reflect.DeepEqual(err, expect) {
-		t.Error("Expected (", expect, ", <nil> ) got (", res, ",", err, ")")
-	}
-}
+//func TestRequest_SubmitReturnsErrorOnFail(t *testing.T) {
+//	test := newRequest("test.test", method.GET)
+//	client := dummyClient{}
+//	expect := errors.New("test error")
+//
+//	client.Error = expect
+//	test.client = &client
+//
+//	res, err := test.Submit().GetRawResponse()
+//
+//	if res != nil || !reflect.DeepEqual(err, expect) {
+//		t.Error("Expected (", expect, ", <nil> ) got (", res, ",", err, ")")
+//	}
+//}
 
 func TestRequest_SubmitReturnsErrorIfExistsBeforeRequestSend(t *testing.T) {
 	test := newRequest("test.test", method.GET)

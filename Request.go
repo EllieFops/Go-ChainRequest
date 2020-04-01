@@ -1,6 +1,9 @@
 package creq
 
-import "github.com/Foxcapades/Go-ChainRequest/request"
+import (
+	"github.com/Foxcapades/Go-ChainRequest/request"
+	"net/http"
+)
 
 type Request interface {
 
@@ -110,7 +113,9 @@ type Request interface {
 
 	GetUrl() string
 
-	SetHttpClient(client request.Client) Request
+	SetHttpClient(client *http.Client) Request
 
 	SetRequestBuilder(builder RequestBuilder) Request
+
+	DisableRedirects() Request
 }

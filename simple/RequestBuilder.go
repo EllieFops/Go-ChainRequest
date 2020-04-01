@@ -14,7 +14,7 @@ type RequestBuilder func(string, string, io.Reader) (*http.Request, error)
 func (r RequestBuilder) Build(request creq.Request) (*http.Request, error) {
 	return http.NewRequest(
 		string(request.GetMethod()),
-		string(request.GetUrl()),
+		request.GetUrl(),
 		getBodyReader(request.GetBody()),
 	)
 }
