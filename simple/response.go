@@ -21,6 +21,44 @@ func (r *response) GetResponseCode() (uint16, error) {
 	return uint16(r.raw.StatusCode), nil
 }
 
+func (r *response) GetHeader(key string) (string, error) {
+	if r.err != nil {
+		return "", r.err
+	}
+	return r.raw.Header.Get(key), nil
+}
+
+func (r *response) MustGetHeader(key string) string {
+	if r.err != nil {
+		panic(r.err)
+	}
+	return r.raw.Header.Get(key)
+}
+
+func (r *response) LookupHeader(key string) (val string, ok bool, err error) {
+	if r.err != nil {
+		return "", false, r.err
+	}
+
+	if v, exists := r.raw.Header[key]; exists {
+		return v[0], exists, nil
+	}
+
+	return "", false, nil
+}
+
+func (r *response) MustLookupHeader(key string) (val string, ok bool) {
+	if r.err != nil {
+		panic(r.err)
+	}
+
+	if v, exists := r.raw.Header[key]; exists {
+		return v[0], exists
+	}
+
+	return "", false
+}
+
 func (r *response) GetError() error {
 	return r.err
 }

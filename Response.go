@@ -14,5 +14,13 @@ type Response interface {
 
 	GetBody() ([]byte, error)
 
+	GetHeader(key string) (string error)
+
+	MustGetHeader(key string) string
+
+	LookupHeader(key string) (val string, ok bool, err error)
+
+	MustLookupHeader(key string) (val string, ok bool)
+
 	UnmarshalBody(interface{}, response.Unmarshaller) error
 }
