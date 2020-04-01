@@ -90,3 +90,10 @@ func (r *response) UnmarshalBody(in interface{}, un res.Unmarshaller) error {
 
 	return un.Unmarshal(dat, in)
 }
+
+func (r *response) MustGetResponseCode() uint16 {
+	if r.err != nil {
+		panic(r.err)
+	}
+	return uint16(r.raw.StatusCode)
+}

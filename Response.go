@@ -10,6 +10,8 @@ type Response interface {
 
 	GetResponseCode() (uint16, error)
 
+	MustGetResponseCode() uint16
+
 	GetRawResponse() (*http.Response, error)
 
 	GetBody() ([]byte, error)
