@@ -16,6 +16,8 @@ type Response interface {
 
 	GetBody() ([]byte, error)
 
+	MustGetBody() []byte
+
 	GetHeader(key string) (string, error)
 
 	MustGetHeader(key string) string

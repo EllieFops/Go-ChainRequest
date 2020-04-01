@@ -97,3 +97,11 @@ func (r *response) MustGetResponseCode() uint16 {
 	}
 	return uint16(r.raw.StatusCode)
 }
+
+func (r *response) MustGetBody() []byte {
+	bod, err := r.GetBody()
+	if err != nil {
+		panic(err)
+	}
+	return bod
+}
