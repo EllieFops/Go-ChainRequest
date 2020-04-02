@@ -91,6 +91,16 @@ func (r *response) UnmarshalBody(in interface{}, un res.Unmarshaller) error {
 	return un.Unmarshal(dat, in)
 }
 
+func (r *response) MustUnmarshalBody(in interface{}, un res.Unmarshaller) {
+	if dat, err := r.GetBody(); err != nil {
+		panic(err)
+	} else {
+		if err = un.Unmarshal(dat, in); err != nil {
+			panic(err)
+		}
+	}
+}
+
 func (r *response) MustGetResponseCode() uint16 {
 	if r.err != nil {
 		panic(r.err)
