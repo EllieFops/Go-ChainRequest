@@ -2,6 +2,7 @@ package simple
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/Foxcapades/Go-ChainRequest"
 	req "github.com/Foxcapades/Go-ChainRequest/request"
@@ -12,9 +13,15 @@ type request struct {
 	method  req.Method
 	url     string
 	body    []byte
+	cookies []*http.Cookie
 	err     error
 	client  *http.Client
 	factory creq.RequestBuilder
+}
+
+func (r *request) AddCookie(cookie *http.Cookie) creq.Request {
+	r.cookies = append(r.cookies, cookie)
+	return r
 }
 
 func (r *request) SetHttpClient(client *http.Client) creq.Request {
@@ -96,6 +103,10 @@ func (r *request) Submit() creq.Response {
 	}
 
 	r.assignHeaders(quest.Header)
+
+	for _, c := range r.cookies {
+		quest.AddCookie(c)
+	}
 
 	res, err := r.client.Do(quest)
 

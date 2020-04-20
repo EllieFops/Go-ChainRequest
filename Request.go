@@ -118,4 +118,6 @@ type Request interface {
 	SetRequestBuilder(builder RequestBuilder) Request
 
 	DisableRedirects() Request
+
+	AddCookie(*http.Cookie) Request
 }
