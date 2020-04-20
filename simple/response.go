@@ -11,7 +11,8 @@ type response struct {
 	raw *http.Response
 	err error
 
-	body []byte
+	body    []byte
+	cookies map[string]*http.Cookie
 }
 
 func (r *response) GetResponseCode() (uint16, error) {
@@ -19,6 +20,13 @@ func (r *response) GetResponseCode() (uint16, error) {
 		return 0, r.err
 	}
 	return uint16(r.raw.StatusCode), nil
+}
+
+func (r *response) MustGetResponseCode() uint16 {
+	if r.err != nil {
+		panic(r.err)
+	}
+	return uint16(r.raw.StatusCode)
 }
 
 func (r *response) GetHeader(key string) (string, error) {
@@ -81,6 +89,38 @@ func (r *response) GetBody() ([]byte, error) {
 	return r.body, nil
 }
 
+func (r *response) MustGetBody() []byte {
+	bod, err := r.GetBody()
+	if err != nil {
+		panic(err)
+	}
+	return bod
+}
+
+func (r *response) GetCookie(name string) (*http.Cookie, error) {
+	if r.err != nil {
+		return nil, r.err
+	}
+
+	// populate cookie map on demand
+	if r.cookies == nil {
+		r.cookies = make(map[string]*http.Cookie, len(r.raw.Cookies()))
+		for _, c := range r.raw.Cookies() {
+			r.cookies[c.Name] = c
+		}
+	}
+
+	return r.cookies[name], nil
+}
+
+func (r *response) MustGetCookie(name string) *http.Cookie {
+	if c, e := r.GetCookie(name); e != nil {
+		panic(e)
+	} else {
+		return c
+	}
+}
+
 func (r *response) UnmarshalBody(in interface{}, un res.Unmarshaller) error {
 	dat, err := r.GetBody()
 
@@ -99,19 +139,4 @@ func (r *response) MustUnmarshalBody(in interface{}, un res.Unmarshaller) {
 			panic(err)
 		}
 	}
-}
-
-func (r *response) MustGetResponseCode() uint16 {
-	if r.err != nil {
-		panic(r.err)
-	}
-	return uint16(r.raw.StatusCode)
-}
-
-func (r *response) MustGetBody() []byte {
-	bod, err := r.GetBody()
-	if err != nil {
-		panic(err)
-	}
-	return bod
 }

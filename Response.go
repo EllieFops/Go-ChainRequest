@@ -24,6 +24,9 @@ type Response interface {
 	// instance.
 	GetRawResponse() (*http.Response, error)
 
+	GetCookie(name string) (*http.Cookie, error)
+	MustGetCookie(name string) *http.Cookie
+
 	// GetBody returns the response body as a byte array.
 	//
 	// If the request failed, then the returned body will be empty, and the
