@@ -140,3 +140,11 @@ func (r *response) MustUnmarshalBody(in interface{}, un res.Unmarshaller) {
 		}
 	}
 }
+
+func (r *response) Close() error {
+	if r.raw == nil {
+		return nil
+	}
+
+	return r.raw.Body.Close()
+}

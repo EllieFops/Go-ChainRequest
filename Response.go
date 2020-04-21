@@ -83,4 +83,6 @@ type Response interface {
 	//
 	// If the request failed, or unmarshalling fails, this method panics.
 	MustUnmarshalBody(interface{}, response.Unmarshaller)
+
+	Close() error
 }
