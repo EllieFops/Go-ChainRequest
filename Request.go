@@ -120,4 +120,6 @@ type Request interface {
 	DisableRedirects() Request
 
 	AddCookie(*http.Cookie) Request
+
+	GetCookies() []*http.Cookie
 }

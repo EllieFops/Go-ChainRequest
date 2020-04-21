@@ -23,6 +23,10 @@ func (r *request) AddCookie(cookie *http.Cookie) creq.Request {
 	return r
 }
 
+func (r *request) GetCookies() []*http.Cookie {
+	return r.cookies
+}
+
 func (r *request) SetHttpClient(client *http.Client) creq.Request {
 	r.client = client
 	return r
