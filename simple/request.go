@@ -2,7 +2,6 @@ package simple
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/Foxcapades/Go-ChainRequest"
 	req "github.com/Foxcapades/Go-ChainRequest/request"
